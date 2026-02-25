@@ -1,0 +1,182 @@
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { TetherClient } from "tether-name";
+import { z } from "zod";
+
+export function createServer(): McpServer {
+  const server = new McpServer({
+    name: "tether-name-mcp",
+    version: "1.0.0",
+  });
+
+  function getClient(): TetherClient {
+    const credentialId = process.env.TETHER_CREDENTIAL_ID;
+    const privateKeyPath = process.env.TETHER_PRIVATE_KEY_PATH;
+    const baseUrl = process.env.TETHER_BASE_URL;
+
+    if (!credentialId) {
+      throw new Error(
+        "TETHER_CREDENTIAL_ID environment variable is required"
+      );
+    }
+    if (!privateKeyPath) {
+      throw new Error(
+        "TETHER_PRIVATE_KEY_PATH environment variable is required"
+      );
+    }
+
+    return new TetherClient({
+      credentialId,
+      privateKeyPath,
+      baseUrl,
+    });
+  }
+
+  server.tool(
+    "verify_identity",
+    "Perform complete identity verification in one call. Requests a challenge, signs it with the configured private key, and submits the proof to tether.name for verification.",
+    {},
+    async () => {
+      try {
+        const client = getClient();
+        const result = await client.verify();
+        return {
+          content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+        };
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : String(error);
+        return {
+          content: [{ type: "text", text: `Verification failed: ${message}` }],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  server.tool(
+    "request_challenge",
+    "Request a new challenge string from the tether.name API. This challenge must be signed and submitted back for verification.",
+    {},
+    async () => {
+      try {
+        const client = getClient();
+        const challenge = await client.requestChallenge();
+        return {
+          content: [
+            { type: "text", text: JSON.stringify({ challenge }, null, 2) },
+          ],
+        };
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : String(error);
+        return {
+          content: [
+            { type: "text", text: `Failed to request challenge: ${message}` },
+          ],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  server.tool(
+    "sign_challenge",
+    "Sign a challenge string using the configured RSA private key. Returns a URL-safe base64 encoded signature.",
+    { challenge: z.string().describe("The challenge string to sign") },
+    async ({ challenge }) => {
+      try {
+        const client = getClient();
+        const proof = client.sign(challenge);
+        return {
+          content: [
+            { type: "text", text: JSON.stringify({ proof }, null, 2) },
+          ],
+        };
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : String(error);
+        return {
+          content: [
+            { type: "text", text: `Failed to sign challenge: ${message}` },
+          ],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  server.tool(
+    "submit_proof",
+    "Submit a signed proof for a challenge to the tether.name API for verification.",
+    {
+      challenge: z
+        .string()
+        .describe("The original challenge string from request_challenge"),
+      proof: z
+        .string()
+        .describe("The signed proof from sign_challenge"),
+    },
+    async ({ challenge, proof }) => {
+      try {
+        const client = getClient();
+        const result = await client.submitProof(challenge, proof);
+        return {
+          content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+        };
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : String(error);
+        return {
+          content: [
+            { type: "text", text: `Failed to submit proof: ${message}` },
+          ],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  server.tool(
+    "get_credential_info",
+    "Get information about the currently configured tether.name credential. Returns the credential ID and base URL.",
+    {},
+    async () => {
+      const credentialId = process.env.TETHER_CREDENTIAL_ID;
+      const privateKeyPath = process.env.TETHER_PRIVATE_KEY_PATH;
+      const baseUrl =
+        process.env.TETHER_BASE_URL || "https://api.tether.name";
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(
+              {
+                credentialId: credentialId || "(not set)",
+                privateKeyPath: privateKeyPath || "(not set)",
+                baseUrl,
+                configured: !!(credentialId && privateKeyPath),
+              },
+              null,
+              2
+            ),
+          },
+        ],
+      };
+    }
+  );
+
+  return server;
+}
+
+async function main(): Promise<void> {
+  const server = createServer();
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+}
+
+main().catch((error) => {
+  console.error("Fatal error:", error);
+  process.exit(1);
+});

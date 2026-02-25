@@ -1,0 +1,58 @@
+{
+  "name": "tether-name-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for tether.name - AI agent identity verification",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "tether-name-mcp": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "tether",
+    "mcp",
+    "agent",
+    "verification",
+    "identity",
+    "model-context-protocol"
+  ],
+  "author": "Commit 451",
+  "license": "MIT",
+  "homepage": "https://tether.name",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tether-name/tether-name-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tether-name/tether-name-mcp/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "tether-name": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  }
+}
