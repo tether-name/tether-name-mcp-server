@@ -43,16 +43,16 @@
     "url": "https://github.com/tether-name/tether-name-mcp/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
-    "tether-name": "^1.0.0"
+    "tether-name": "^1.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0",
-    "vitest": "^1.0.0"
+    "vitest": "^4.0.18"
   }
 }
