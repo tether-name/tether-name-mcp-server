@@ -45,7 +45,7 @@ async function createTestClient() {
   return { client, server };
 }
 
-describe("tether-name-mcp server", () => {
+describe("tether-name-mcp-server", () => {
   describe("tool listing", () => {
     let restore: () => void;
 

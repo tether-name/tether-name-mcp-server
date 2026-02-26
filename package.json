@@ -1,12 +1,12 @@
 {
-  "name": "tether-name-mcp",
+  "name": "tether-name-mcp-server",
   "version": "1.0.0",
   "description": "MCP server for tether.name - AI agent identity verification",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "bin": {
-    "tether-name-mcp": "./dist/index.js"
+    "tether-name-mcp-server": "./dist/index.js"
   },
   "exports": {
     ".": {
@@ -37,10 +37,10 @@
   "homepage": "https://tether.name",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tether-name/tether-name-mcp.git"
+    "url": "https://github.com/tether-name/tether-name-mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/tether-name/tether-name-mcp/issues"
+    "url": "https://github.com/tether-name/tether-name-mcp-server/issues"
   },
   "engines": {
     "node": ">=20.0.0"

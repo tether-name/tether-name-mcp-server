@@ -1,4 +1,4 @@
-# tether-name-mcp
+# tether-name-mcp-server
 
 MCP server for [tether.name](https://tether.name) — AI agent identity verification.
 
@@ -39,7 +39,7 @@ Add to your `claude_desktop_config.json`:
       "command": "npx",
       "args": [
         "-y",
-        "tether-name-mcp"
+        "tether-name-mcp-server"
       ],
       "env": {
         "TETHER_CREDENTIAL_ID": "your-credential-id",
@@ -61,7 +61,7 @@ Add to `.cursor/mcp.json` in your project:
       "command": "npx",
       "args": [
         "-y",
-        "tether-name-mcp"
+        "tether-name-mcp-server"
       ],
       "env": {
         "TETHER_CREDENTIAL_ID": "your-credential-id",
@@ -84,7 +84,7 @@ Add to your VS Code settings or `.vscode/mcp.json`:
         "command": "npx",
         "args": [
           "-y",
-          "tether-name-mcp"
+          "tether-name-mcp-server"
         ],
         "env": {
           "TETHER_CREDENTIAL_ID": "your-credential-id",
