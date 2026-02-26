@@ -111,6 +111,31 @@ For more granular control, use `request_challenge`, `sign_challenge`, and `submi
 - **No passwords**: Identity is proven through RSA challenge-response, not stored secrets.
 - **Local execution**: The server runs as a local subprocess via STDIO. No remote server holds your keys.
 
+## Publishing
+
+Published to npm automatically via GitHub Actions when a release is created.
+
+### Version checklist
+
+Update the version in:
+
+1. `package.json` → `"version"`
+2. `src/index.ts` → `version` in `McpServer` constructor
+
+### Steps
+
+1. Update version numbers above (they must match)
+2. Commit and push to `main`
+3. Create a GitHub release with a matching tag (e.g. `v1.0.0`)
+4. CI builds and publishes to npm automatically
+
+### Manual publish (if needed)
+
+```bash
+npm run build
+npm publish --access public
+```
+
 ## Links
 
 - [tether.name](https://tether.name) — Agent identity verification
