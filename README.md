@@ -24,7 +24,6 @@ The server reads from environment variables:
 |---------------------------|----------|------------------------------------------------------|
 | `TETHER_CREDENTIAL_ID`    | ✅        | Your Tether credential ID                            |
 | `TETHER_PRIVATE_KEY_PATH` | ✅        | Path to your RSA private key (DER or PEM)            |
-| `TETHER_BASE_URL`         | ❌        | API base URL (defaults to `https://api.tether.name`) |
 
 ## MCP Client Setup
 
@@ -104,7 +103,7 @@ Add to your VS Code settings or `.vscode/mcp.json`:
 | `request_challenge`   | Request a new challenge string from the Tether API                                         |
 | `sign_challenge`      | Sign a challenge string with the configured RSA private key                                |
 | `submit_proof`        | Submit a signed proof for a challenge                                                      |
-| `get_credential_info` | Show the currently configured credential ID, key path, and base URL                        |
+| `get_credential_info` | Show the currently configured credential ID and key path                        |
 
 ## How It Works
 

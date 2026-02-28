@@ -12,7 +12,6 @@ export function createServer(): McpServer {
   function getClient(): TetherClient {
     const credentialId = process.env.TETHER_CREDENTIAL_ID;
     const privateKeyPath = process.env.TETHER_PRIVATE_KEY_PATH;
-    const baseUrl = "https://api.tether.name";
 
     if (!credentialId) {
       throw new Error(
@@ -28,7 +27,6 @@ export function createServer(): McpServer {
     return new TetherClient({
       credentialId,
       privateKeyPath,
-      baseUrl,
     });
   }
 
@@ -153,12 +151,11 @@ export function createServer(): McpServer {
     "get_credential_info",
     {
       description:
-        "Get information about the currently configured tether.name credential. Returns the credential ID and base URL.",
+        "Get information about the currently configured tether.name credential. Returns the credential ID and key path.",
     },
     async () => {
       const credentialId = process.env.TETHER_CREDENTIAL_ID;
       const privateKeyPath = process.env.TETHER_PRIVATE_KEY_PATH;
-      const baseUrl = "https://api.tether.name";
 
       return {
         content: [
@@ -168,7 +165,6 @@ export function createServer(): McpServer {
               {
                 credentialId: credentialId || "(not set)",
                 privateKeyPath: privateKeyPath || "(not set)",
-                baseUrl,
                 configured: !!(credentialId && privateKeyPath),
               },
               null,
