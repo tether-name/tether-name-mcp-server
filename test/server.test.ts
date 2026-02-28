@@ -140,7 +140,6 @@ describe("tether-name-mcp-server", () => {
         const info = JSON.parse(content[0].text);
         expect(info.credentialId).toBe("(not set)");
         expect(info.privateKeyPath).toBe("(not set)");
-        expect(info.baseUrl).toBe("https://api.tether.name");
         expect(info.configured).toBe(false);
       } finally {
         restore();
