@@ -179,13 +179,8 @@ export function createServer(): McpServer {
   return server;
 }
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   const server = createServer();
   const transport = new StdioServerTransport();
   await server.connect(transport);
 }
-
-main().catch((error) => {
-  console.error("Fatal error:", error);
-  process.exit(1);
-});

@@ -6,7 +6,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "bin": {
-    "tether-name-mcp-server": "./dist/index.js"
+    "tether-name-mcp-server": "./dist/cli.js"
   },
   "exports": {
     ".": {

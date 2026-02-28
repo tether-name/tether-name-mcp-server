@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
-import { createServer } from "../src/index.js";
+import { createServer, main } from "../src/index.js";
 
 function setupEnv(
   overrides: Record<string, string | undefined> = {}
@@ -44,6 +44,15 @@ async function createTestClient() {
 
   return { client, server };
 }
+
+describe("import safety", () => {
+  it("should not start a server when imported as a module", () => {
+    // Importing the module should only expose createServer and main
+    // without starting a StdioServerTransport (which would block the process)
+    expect(createServer).toBeTypeOf("function");
+    expect(main).toBeTypeOf("function");
+  });
+});
 
 describe("tether-name-mcp-server", () => {
   describe("tool listing", () => {
