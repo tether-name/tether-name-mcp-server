@@ -6,13 +6,13 @@ import { z } from "zod";
 export function createServer(): McpServer {
   const server = new McpServer({
     name: "tether-name-mcp-server",
-    version: "1.0.0",
+    version: "1.0.1",
   });
 
   function getClient(): TetherClient {
     const credentialId = process.env.TETHER_CREDENTIAL_ID;
     const privateKeyPath = process.env.TETHER_PRIVATE_KEY_PATH;
-    const baseUrl = process.env.TETHER_BASE_URL;
+    const baseUrl = "https://api.tether.name";
 
     if (!credentialId) {
       throw new Error(
@@ -32,10 +32,12 @@ export function createServer(): McpServer {
     });
   }
 
-  server.tool(
+  server.registerTool(
     "verify_identity",
-    "Perform complete identity verification in one call. Requests a challenge, signs it with the configured private key, and submits the proof to tether.name for verification.",
-    {},
+    {
+      description:
+        "Perform complete identity verification in one call. Requests a challenge, signs it with the configured private key, and submits the proof to tether.name for verification.",
+    },
     async () => {
       try {
         const client = getClient();
@@ -54,10 +56,12 @@ export function createServer(): McpServer {
     }
   );
 
-  server.tool(
+  server.registerTool(
     "request_challenge",
-    "Request a new challenge string from the tether.name API. This challenge must be signed and submitted back for verification.",
-    {},
+    {
+      description:
+        "Request a new challenge string from the tether.name API. This challenge must be signed and submitted back for verification.",
+    },
     async () => {
       try {
         const client = getClient();
@@ -80,10 +84,15 @@ export function createServer(): McpServer {
     }
   );
 
-  server.tool(
+  server.registerTool(
     "sign_challenge",
-    "Sign a challenge string using the configured RSA private key. Returns a URL-safe base64 encoded signature.",
-    { challenge: z.string().describe("The challenge string to sign") },
+    {
+      description:
+        "Sign a challenge string using the configured RSA private key. Returns a URL-safe base64 encoded signature.",
+      inputSchema: {
+        challenge: z.string().describe("The challenge string to sign"),
+      },
+    },
     async ({ challenge }) => {
       try {
         const client = getClient();
@@ -106,16 +115,19 @@ export function createServer(): McpServer {
     }
   );
 
-  server.tool(
+  server.registerTool(
     "submit_proof",
-    "Submit a signed proof for a challenge to the tether.name API for verification.",
     {
-      challenge: z
-        .string()
-        .describe("The original challenge string from request_challenge"),
-      proof: z
-        .string()
-        .describe("The signed proof from sign_challenge"),
+      description:
+        "Submit a signed proof for a challenge to the tether.name API for verification.",
+      inputSchema: {
+        challenge: z
+          .string()
+          .describe("The original challenge string from request_challenge"),
+        proof: z
+          .string()
+          .describe("The signed proof from sign_challenge"),
+      },
     },
     async ({ challenge, proof }) => {
       try {
@@ -137,15 +149,16 @@ export function createServer(): McpServer {
     }
   );
 
-  server.tool(
+  server.registerTool(
     "get_credential_info",
-    "Get information about the currently configured tether.name credential. Returns the credential ID and base URL.",
-    {},
+    {
+      description:
+        "Get information about the currently configured tether.name credential. Returns the credential ID and base URL.",
+    },
     async () => {
       const credentialId = process.env.TETHER_CREDENTIAL_ID;
       const privateKeyPath = process.env.TETHER_PRIVATE_KEY_PATH;
-      const baseUrl =
-        process.env.TETHER_BASE_URL || "https://api.tether.name";
+      const baseUrl = "https://api.tether.name";
 
       return {
         content: [

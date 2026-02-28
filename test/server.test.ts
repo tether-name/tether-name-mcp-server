@@ -103,7 +103,6 @@ describe("tether-name-mcp-server", () => {
       const restore = setupEnv({
         TETHER_CREDENTIAL_ID: "my-cred-id",
         TETHER_PRIVATE_KEY_PATH: "/path/to/key.der",
-        TETHER_BASE_URL: "https://custom.api.tether.name",
       });
 
       try {
@@ -117,7 +116,6 @@ describe("tether-name-mcp-server", () => {
         const info = JSON.parse(content[0].text);
         expect(info.credentialId).toBe("my-cred-id");
         expect(info.privateKeyPath).toBe("/path/to/key.der");
-        expect(info.baseUrl).toBe("https://custom.api.tether.name");
         expect(info.configured).toBe(true);
       } finally {
         restore();

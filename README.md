@@ -13,7 +13,7 @@ identity by signing cryptographic challenges — no custodial risk, no passwords
 ## Quick Start
 
 ```bash
-npx tether-name-mcp
+npx tether-name-mcp-server
 ```
 
 ## Configuration
