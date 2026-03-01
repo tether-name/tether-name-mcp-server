@@ -23,7 +23,7 @@ The server reads from environment variables:
 | Variable                  | Required | Description                                          |
 |---------------------------|----------|------------------------------------------------------|
 | `TETHER_CREDENTIAL_ID`    | ✅        | Your Tether credential ID                            |
-| `TETHER_PRIVATE_KEY_PATH` | ✅        | Path to your RSA private key (DER or PEM)            |
+| `TETHER_PRIVATE_KEY_PATH` | ✅        | Path to your RSA private key (PEM or DER)            |
 
 ## MCP Client Setup
 
@@ -42,7 +42,7 @@ Add to your `claude_desktop_config.json`:
       ],
       "env": {
         "TETHER_CREDENTIAL_ID": "your-credential-id",
-        "TETHER_PRIVATE_KEY_PATH": "/path/to/private-key.der"
+        "TETHER_PRIVATE_KEY_PATH": "/path/to/private-key.pem"
       }
     }
   }
@@ -64,7 +64,7 @@ Add to `.cursor/mcp.json` in your project:
       ],
       "env": {
         "TETHER_CREDENTIAL_ID": "your-credential-id",
-        "TETHER_PRIVATE_KEY_PATH": "/path/to/private-key.der"
+        "TETHER_PRIVATE_KEY_PATH": "/path/to/private-key.pem"
       }
     }
   }
@@ -87,7 +87,7 @@ Add to your VS Code settings or `.vscode/mcp.json`:
         ],
         "env": {
           "TETHER_CREDENTIAL_ID": "your-credential-id",
-          "TETHER_PRIVATE_KEY_PATH": "/path/to/private-key.der"
+          "TETHER_PRIVATE_KEY_PATH": "/path/to/private-key.pem"
         }
       }
     }
