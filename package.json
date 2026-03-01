@@ -6,7 +6,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "bin": {
-    "tether-name-mcp-server": "./dist/cli.js"
+    "tether-name-mcp-server": "dist/cli.js"
   },
   "exports": {
     ".": {
@@ -37,7 +37,7 @@
   "homepage": "https://tether.name",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tether-name/tether-name-mcp-server.git"
+    "url": "git+https://github.com/tether-name/tether-name-mcp-server.git"
   },
   "bugs": {
     "url": "https://github.com/tether-name/tether-name-mcp-server/issues"
