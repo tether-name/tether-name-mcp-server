@@ -1,6 +1,6 @@
 {
   "name": "tether-name-mcp-server",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "MCP server for tether.name - AI agent identity verification",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
